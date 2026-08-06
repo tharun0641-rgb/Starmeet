@@ -1,3 +1,15 @@
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+app.mount("/css", StaticFiles(directory=os.path.join(BASE_DIR, "css")), name="css")
+app.mount("/js", StaticFiles(directory=os.path.join(BASE_DIR, "js")), name="js")
+
+@app.get("/")
+async def home():
+    return FileResponse(os.path.join(BASE_DIR, "index.html"))
 """
 StarMeet — Production Python FastAPI & Socket.IO Signaling Server
 Provides JWT Auth, WebRTC Signaling Server, PostgreSQL User & Meeting History Persistence,
