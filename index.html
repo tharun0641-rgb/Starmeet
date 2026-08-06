@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StarMeet — Next-Generation AI Video Conferencing Platform</title>
+  <meta name="description" content="StarMeet delivers a premium, secure, intelligent, and visually stunning video conferencing experience." />
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- Animated Space Background Canvas -->
+  <canvas id="spaceCanvas"></canvas>
+
+  <!-- Floating Emoji Reaction Overlay Canvas -->
+  <canvas id="reactionCanvas"></canvas>
+
+  <!-- Application Container -->
+  <div id="appContainer">
+
+    <!-- ==========================================================================
+         PAGE VIEW 1: AUTHENTICATION (LOGIN & REGISTRATION)
+         ========================================================================== -->
+    <div id="authPage" class="page-view active">
+      <div class="auth-wrapper glass-card">
+        <div class="auth-brand">
+          <div class="logo-canvas-wrap">
+            <canvas id="logoCanvasAuth" width="90" height="90"></canvas>
+          </div>
+          <h1 class="brand-name">StarMeet</h1>
+          <p class="brand-tagline">Next-Generation AI Video Conferencing</p>
+        </div>
+
+        <div class="auth-tabs">
+          <div id="tabLogin" class="auth-tab active">Login</div>
+          <div id="tabRegister" class="auth-tab">Create Account</div>
+        </div>
+
+        <div id="authError" style="color: var(--accent-rose); font-size: 13px; text-align: center; margin-bottom: 12px; display: none;"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Gmail Address</label>
+            <input type="email" id="loginEmail" class="glass-input" placeholder="user@gmail.com" required value="alex@gmail.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" class="glass-input" placeholder="••••••••" required value="Password123!" />
+          </div>
+          <button type="submit" class="btn-futuristic" style="width: 100%; margin-top: 10px;">Login to StarMeet</button>
+        </form>
+
+        <!-- Registration Form -->
+        <form id="registerForm" style="display: none;">
+          <div class="avatar-upload-wrap">
+            <img id="regAvatarPreview" class="avatar-preview" src="https://api.dicebear.com/7.x/bottts/svg?seed=StarUser" alt="Avatar Preview" />
+            <div>
+              <label class="form-label">Profile Photo (Optional)</label>
+              <input type="file" id="regAvatarInput" accept="image/*" style="font-size: 12px; color: var(--text-muted);" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regFullName">Full Name</label>
+            <input type="text" id="regFullName" class="glass-input" placeholder="Alex Vance" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" class="glass-input" placeholder="alex@gmail.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Password</label>
+            <input type="password" id="regPassword" class="glass-input" placeholder="••••••••" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regConfirmPassword">Confirm Password</label>
+            <input type="password" id="regConfirmPassword" class="glass-input" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="btn-futuristic" style="width: 100%; margin-top: 10px;">Create Free Account</button>
+        </form>
+
+        <!-- Social Login -->
+        <div class="social-auth">
+          <button type="button" id="btnGoogleAuth" class="google-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#ea4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.3 8.9 5 12 5z"/><path fill="#4285f4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/><path fill="#fbbc05" d="M5.3 14.7c-.3-.8-.4-1.7-.4-2.7s.1-1.9.4-2.7L1.6 6.4C.6 8.4 0 10.1 0 12s.6 3.6 1.6 5.6l3.7-2.9z"/><path fill="#34a853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.3-6.7-5.3L1.6 16C3.5 19.8 7.4 23 12 23z"/></svg>
+            Continue with Google
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE VIEW 2: SPACE DASHBOARD
+         ========================================================================== -->
+    <div id="dashboardPage" class="page-view">
+      <!-- Dashboard Top Header -->
+      <header class="dashboard-header">
+        <div class="header-left">
+          <div class="header-logo-icon">
+            <canvas id="logoCanvasDash" width="42" height="42"></canvas>
+          </div>
+          <span style="font-weight: 800; font-size: 22px; letter-spacing: -0.5px;">StarMeet</span>
+        </div>
+
+        <div class="header-right">
+          <button id="btnAnalytics" class="btn-futuristic btn-secondary" style="font-size: 13px; padding: 8px 16px;">📊 Analytics</button>
+          <button id="btnHistory" class="btn-futuristic btn-secondary" style="font-size: 13px; padding: 8px 16px;">📜 History</button>
+          
+          <div class="user-profile-badge">
+            <img id="headerUserAvatar" class="user-avatar-sm" src="" alt="User Avatar" />
+            <span id="headerUserName" style="font-weight: 600; font-size: 14px;">User</span>
+          </div>
+
+          <button id="btnLogout" class="btn-futuristic btn-secondary" style="font-size: 13px; padding: 8px 14px;">Logout</button>
+        </div>
+      </header>
+
+      <!-- Center Hero Content -->
+      <main class="dashboard-content">
+        <div class="hero-section">
+          <h1 class="hero-title">Welcome to StarMeet</h1>
+          <p class="hero-subtitle">Connect seamlessly with ultra-low latency WebRTC streaming and dynamic bandwidth optimization.</p>
+        </div>
+
+        <!-- Animated Search Box -->
+        <div class="search-box-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-box" placeholder="Search past meetings, contacts, or enter meeting code..." />
+        </div>
+
+        <!-- Quick Action Cards -->
+        <div class="action-cards-grid">
+          <div id="btnCreateMeeting" class="action-card glass-card">
+            <div class="action-card-icon">🚀</div>
+            <div class="action-card-title">Create Meeting</div>
+            <div class="action-card-desc">Start an instant high-definition video room with QR code sharing.</div>
+          </div>
+
+          <div id="btnJoinMeetingModal" class="action-card glass-card">
+            <div class="action-card-icon">🔗</div>
+            <div class="action-card-title">Join Meeting</div>
+            <div class="action-card-desc">Enter a meeting code or link to connect with participants instantly.</div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+
+    <!-- ==========================================================================
+         PAGE VIEW 3: MEETING ROOM
+         ========================================================================== -->
+    <div id="meetingPage" class="page-view">
+      
+      <!-- Network Weak Alert Banner -->
+      <div id="networkAlertBanner" class="network-alert-banner">
+        ⚠️ <span id="networkAlertText">Network is weak. Optimizing video quality.</span>
+      </div>
+
+      <!-- Meeting Room Top Bar -->
+      <header class="meeting-header">
+        <div class="meeting-info">
+          <span style="font-weight: 700; font-size: 16px; color: var(--primary-cyan);" id="displayMeetingId">SM-000-000</span>
+          <span id="meetingTimerText" class="meeting-timer">00:00</span>
+          <div id="qualityBadge" class="quality-badge">📶 HD 1080P</div>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+          <button id="btnSimulateWeakNetwork" class="btn-futuristic btn-secondary" style="font-size: 12px; padding: 6px 12px;" title="Toggle Low Bandwidth Simulation">
+            ⚡ Low-Bandwidth Mode
+          </button>
+        </div>
+      </header>
+
+      <!-- Meeting Main Content (Stage Grid & Side Drawer) -->
+      <div class="meeting-main">
+        
+        <!-- Video Grid Container -->
+        <div id="videoGridContainer" class="video-grid-container grid-1">
+          
+          <!-- Local Video Card -->
+          <div id="localVideoCard" class="video-card local">
+            <video id="localVideoElement" autoplay playsinline muted></video>
+            <div class="video-card-overlay">
+              <span class="host-tag">HOST</span>
+              <span>You</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Side Drawer: Live Chat -->
+        <aside id="chatDrawer" class="side-drawer">
+          <div class="drawer-header">
+            <span class="drawer-title">Meeting Chat</span>
+            <button id="btnCloseChat" class="modal-close" style="position:static;">✕</button>
+          </div>
+
+          <div id="chatMessagesContainer" class="chat-messages"></div>
+
+          <div class="chat-input-area">
+            <input type="text" id="chatInput" class="glass-input" placeholder="Type a message..." />
+            <div class="chat-input-controls">
+              <button id="btnSendChat" class="btn-futuristic" style="width:100%; padding: 8px 14px;">Send Message</button>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+
+      <!-- Emoji Reactions Popover Menu -->
+      <div id="emojiPopover" class="emoji-popover">
+        <span class="emoji-option">👍</span>
+        <span class="emoji-option">❤️</span>
+        <span class="emoji-option">👏</span>
+        <span class="emoji-option">😂</span>
+        <span class="emoji-option">😮</span>
+        <span class="emoji-option">🎉</span>
+        <span class="emoji-option">🙌</span>
+      </div>
+
+      <!-- Bottom Video Toolbar -->
+      <footer class="meeting-toolbar">
+        <div class="toolbar-group">
+          <button id="btnToggleMic" class="control-btn" title="Microphone On/Off">🎙️</button>
+          <button id="btnToggleCam" class="control-btn" title="Camera On/Off">📹</button>
+          <button id="btnScreenShare" class="control-btn" title="Share Screen">🖥️</button>
+        </div>
+
+        <div class="toolbar-group">
+          <button id="btnToggleChat" class="control-btn" title="Chat Drawer">
+            💬
+            <span id="chatUnreadBadge" class="badge-count" style="display:none;">0</span>
+          </button>
+          <button id="btnReactions" class="control-btn" title="Emoji Reactions">😃</button>
+        </div>
+
+        <div class="toolbar-group">
+          <button id="btnLeaveMeeting" class="btn-futuristic btn-secondary" style="font-size: 14px;">Leave</button>
+          <button id="btnEndMeeting" class="btn-futuristic btn-danger" style="font-size: 14px;">End Meeting</button>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- ==========================================================================
+         MODALS & OVERLAYS
+         ========================================================================== -->
+
+    <!-- Modal 1: Pre-Meeting Permission & QR Code Preview -->
+    <div id="preMeetingModal" class="modal-overlay">
+      <div class="modal-card glass-card" style="text-align: center;">
+        <button class="modal-close">✕</button>
+        <h2 style="margin-bottom: 8px;">Meeting Ready</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+          Meeting ID: <strong id="preMeetingIdDisplay" style="color: var(--primary-cyan);">SM-000-000</strong>
+        </p>
+
+        <div style="width: 100%; height: 180px; border-radius: 12px; overflow: hidden; margin-bottom: 20px; background: #000;">
+          <video id="preMeetingLocalVideo" autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);"></video>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+          <canvas id="preMeetingQrCanvas" width="120" height="120" style="border-radius: 8px; border: 2px solid var(--primary-cyan);"></canvas>
+        </div>
+
+        <button id="btnEnterMeetingRoom" class="btn-futuristic" style="width: 100%;">Join Meeting Room Now</button>
+      </div>
+    </div>
+
+    <!-- Modal 2: Join Meeting Modal -->
+    <div id="joinMeetingModal" class="modal-overlay">
+      <div class="modal-card glass-card">
+        <button class="modal-close">✕</button>
+        <h2 style="margin-bottom: 16px;">Join Video Room</h2>
+        <div class="form-group">
+          <label class="form-label">Meeting Code or Link</label>
+          <input type="text" id="joinMeetingCodeInput" class="glass-input" placeholder="e.g. SM-892-410" />
+        </div>
+        <button id="btnJoinSubmit" class="btn-futuristic" style="width: 100%;">Connect to Host</button>
+      </div>
+    </div>
+
+    <!-- Modal 3: Post-Meeting 5-Star Feedback Popup -->
+    <div id="feedbackModal" class="modal-overlay">
+      <div class="modal-card glass-card" style="text-align: center;">
+        <h2>How was your meeting experience?</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Your feedback helps us continuously optimize audio & video quality.</p>
+
+        <div id="starRatingPicker" class="star-rating-picker">
+          <span class="star-icon filled" data-val="1">★</span>
+          <span class="star-icon filled" data-val="2">★</span>
+          <span class="star-icon filled" data-val="3">★</span>
+          <span class="star-icon filled" data-val="4">★</span>
+          <span class="star-icon filled" data-val="5">★</span>
+        </div>
+
+        <textarea id="feedbackCommentInput" class="glass-input" rows="3" placeholder="Optional comments or suggestions..." style="margin-bottom: 20px;"></textarea>
+
+        <div style="display: flex; gap: 12px;">
+          <button id="btnSkipFeedback" class="btn-futuristic btn-secondary" style="flex: 1;">Skip</button>
+          <button id="btnSubmitFeedback" class="btn-futuristic" style="flex: 1;">Submit Feedback</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 4: Feedback Analytics Dashboard -->
+    <div id="analyticsModal" class="modal-overlay">
+      <div class="modal-card glass-card" style="max-width: 600px;">
+        <button class="modal-close">✕</button>
+        <h2 style="margin-bottom: 20px;">Meeting Quality Analytics</h2>
+
+        <div style="display: flex; gap: 20px; margin-bottom: 24px;">
+          <div style="flex: 1; padding: 16px; background: rgba(0,240,255,0.08); border-radius: 12px; text-align: center; border: 1px solid rgba(0,240,255,0.2);">
+            <div style="font-size: 32px; font-weight: 800; color: var(--primary-cyan);" id="analyticsAvgRating">4.8</div>
+            <div style="font-size: 13px; color: var(--text-muted);">Average Star Rating</div>
+          </div>
+          <div style="flex: 1; padding: 16px; background: rgba(138,43,226,0.08); border-radius: 12px; text-align: center; border: 1px solid rgba(138,43,226,0.2);">
+            <div style="font-size: 32px; font-weight: 800; color: var(--primary-violet);" id="analyticsTotalCount">0</div>
+            <div style="font-size: 13px; color: var(--text-muted);">Total Reviews Submitted</div>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom: 12px;">Star Distribution</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+            <span>5 ★</span>
+            <div class="progress-bar-bg"><div id="starBarFill5" class="progress-bar-fill" style="width: 80%;"></div></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+            <span>4 ★</span>
+            <div class="progress-bar-bg"><div id="starBarFill4" class="progress-bar-fill" style="width: 15%;"></div></div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; font-size: 13px;">
+            <span>3 ★</span>
+            <div class="progress-bar-bg"><div id="starBarFill3" class="progress-bar-fill" style="width: 5%;"></div></div>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom: 12px;">Recent User Comments</h4>
+        <div id="analyticsCommentsFeed" style="max-height: 180px; overflow-y: auto;"></div>
+      </div>
+    </div>
+
+    <!-- Modal 5: Meeting History -->
+    <div id="historyModal" class="modal-overlay">
+      <div class="modal-card glass-card" style="max-width: 720px;">
+        <button class="modal-close">✕</button>
+        <h2 style="margin-bottom: 20px;">Meeting History</h2>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px; text-align: left;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.15); color: var(--text-muted);">
+                <th style="padding: 10px;">Meeting</th>
+                <th style="padding: 10px;">Host</th>
+                <th style="padding: 10px;">Date</th>
+                <th style="padding: 10px;">Duration</th>
+                <th style="padding: 10px;">Rating</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Modules in Dependency Order (No CORS Module restrictions on file://) -->
+  <script src="js/logo.js"></script>
+  <script src="js/spaceEngine.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/webrtc.js"></script>
+  <script src="js/bandwidth.js"></script>
+  <script src="js/mediaEffects.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/reactions.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/history.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
